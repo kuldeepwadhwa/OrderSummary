@@ -1,0 +1,61 @@
+package basic;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class OrderSummaryReport {
+
+    public static void main(String[] args) {
+//        Electronics     | Revenue: 2499.92 | Orders: 3 | Top Item: Laptop
+//        Furniture       | Revenue:  849.97 | Orders: 2 | Top Item: Desk
+//        Stationery      | Revenue:  149.40 | Orders: 2 | Top Item: Notebook
+
+        List<Order> orderList = Arrays.asList(
+                new Order("Laptop",     "Electronics",  999.99, 1),
+                new Order("Phone",      "Electronics",  699.99, 2),
+                new Order("Headphones", "Electronics",  199.99, 3),
+                new Order("Desk",       "Furniture",    349.99, 1),
+                new Order("Chair",      "Furniture",    249.99, 2),
+                new Order("Notebook",   "Stationery",     4.99, 10),
+                new Order("Pen",        "Stationery",     1.99, 50)
+        );
+
+        printSummary(orderList);
+
+
+
+    }
+
+    public static Map<String,OrderSummary> printSummary(List<Order> list){
+        Map<String,OrderSummary> map = new HashMap<>();
+
+        map = list.stream().collect(Collectors.groupingBy(Order::getCategory)).
+                entrySet().stream()
+                        .collect(Collectors.toMap(
+                                e -> e.getKey(),
+                                e-> {
+                                    List<Order> lists = e.getValue();
+
+                                    double revenue = lists.stream().mapToDouble(
+                                            r -> r.getPrice()*r.getQuantity()
+                                    ).sum();
+
+                                    int orderCount = lists.size();
+
+                                    Order topOrder = lists.stream()
+                                            .max(Comparator.comparing(Order::getPrice))
+                                            .orElse(null);
+
+                                    return  new
+                                            OrderSummary(revenue,orderCount,topOrder.getProductName());
+
+                            }
+                        ));
+
+
+        System.out.println(map);
+
+        
+        return map;
+    }
+
+}
