@@ -1,0 +1,45 @@
+package basic;
+
+public class OrderSummary {
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public void setTotalRevenue(double totalRevenue) {
+        this.totalRevenue = totalRevenue;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderSummary{" +
+                "mostExpensiveItem='" + mostExpensiveItem + '\'' +
+                ", totalRevenue=" + totalRevenue +
+                ", orderCount=" + orderCount +
+                '}';
+    }
+
+    public String getMostExpensiveItem() {
+        return mostExpensiveItem;
+    }
+
+    public void setMostExpensiveItem(String mostExpensiveItem) {
+        this.mostExpensiveItem = mostExpensiveItem;
+    }
+
+    public long getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(long orderCount) {
+        this.orderCount = orderCount;
+    }
+
+    double totalRevenue;
+    long orderCount;
+    String mostExpensiveItem;
+    public OrderSummary(double totalRevenue, long orderCount, String mostExpensiveItem){
+        this.totalRevenue=totalRevenue;
+        this.orderCount=orderCount;
+        this.mostExpensiveItem=mostExpensiveItem;
+    }
+}
